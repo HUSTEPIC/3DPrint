@@ -20,10 +20,21 @@ extra = 3 ;
 
  
 //translate([0,0,-3]) board();
-protecter();
-translate([0,0,-3])
-            scale([1.1,1.5,1.1])
-                down_bulge_tall();
+$fn = 100;   
+difference()
+{
+    protecter();
+    translate([0,0,70]) cube(140,center = true);   //用这个保留bottom
+    //translate([0,0,-70]) cube(140,center = true);    //用这个保留top
+}
+//protecter();
+//%translate([0,0,70]) cube(140,center = true);   //用这个保留bottom
+//%translate([0,0,-70]) cube(140,center = true);    //用这个保留top
+
+//%translate([0,0,-70]) cube(140,center = true);    
+
+
+#board();
 
 
 /*--------------------------main----------------------------*/
@@ -43,25 +54,28 @@ module protecter()
         ball(protecter_longer_raduis-protecter_thickness,
         protecter_shorter_raduis-protecter_thickness,
         protecter_height-protecter_thickness);
-        //打四个孔
+        //打四个圆孔
         holes();  
-        
-        translate([0,0,-3])
-            scale([1.1,1.5,1.1])
+        //侧面四个挖空
+        translate([-6,40,-2])
+            scale([1.5,3,1.5])
                 down_bulge_tall();
         
+        translate([12,1,-2])
+            scale([1.5,1.5,1.5])
+                down_bulge_short();
         
+        translate([-70,1,-2])
+            scale([3,1.5,1.5])
+                right_bulge();
         
+        translate([150,0,-2])
+            scale([5,1.5,1.5])
+                left_bulge();
         
-        
-        //下方突起
-//        #translate([(41-length/2),-80,0])cube([26,70,19]);  //下方两个最高突起
-//        #translate([-(length/2-11),-80,thickness/2])cube([13,70,3]);//下方两个矮的突起
-//        //右侧突起
-//        translate([(length/2-4),-(width/2 ),thickness/2])cube([7,width,3]);
-//        //左侧突起
-//        translate([-(length/2),-(width/2 ),thickness/2])cube([5,width,7]); 
-        
+        //上下挖空散热
+        translate([0,15,25]) ball(50,50,30);
+        translate([0,0,-25]) ball(70,70,30);
         
     }
 }
