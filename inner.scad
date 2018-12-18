@@ -33,9 +33,9 @@ difference()
 
 //%translate([0,0,-70]) cube(140,center = true);    
 
-
+translate([0,0,-6])
 #board();
-
+        
 
 /*--------------------------main----------------------------*/
 
@@ -57,21 +57,25 @@ module protecter()
         //打四个圆孔
         holes();  
         //侧面四个挖空
-        translate([-6,40,-2])
+        translate([0,0,-6])
+        {
+            translate([-6,40,-2])
             scale([1.5,3,1.5])
                 down_bulge_tall();
         
-        translate([12,1,-2])
-            scale([1.5,1.5,1.5])
-                down_bulge_short();
+            translate([12,1,-2])
+                scale([1.5,1.5,1.7])
+                    down_bulge_short();
+            
+            translate([-70,1,-1])
+                scale([3,1.5,1.5])
+                    right_bulge();
+            
+            translate([150,0,-2])
+                scale([5,1.5,1.5])
+                    left_bulge();
+        }
         
-        translate([-70,1,-2])
-            scale([3,1.5,1.5])
-                right_bulge();
-        
-        translate([150,0,-2])
-            scale([5,1.5,1.5])
-                left_bulge();
         
         //上下挖空散热
         translate([0,15,25]) ball(50,50,30);
