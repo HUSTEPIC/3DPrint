@@ -24,7 +24,7 @@ difference()
 {
     whole();
     translate([100,0,0])cube(200,center = true);
-    translate([0,0,100])cube(200,center = true);
+    translate([0,0,-100])cube(200,center = true);
 }
 
 /*-------------------------------modules----------------------------------------------*/
