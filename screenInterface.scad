@@ -1,6 +1,6 @@
 /*------------------------------variables--------------------------------------------*/
-inLength = 163;
-inWidth = 122;
+inLength = 159;
+inWidth = 119;
 
 
 outLength = 188;
@@ -15,16 +15,25 @@ upDownDistance = 20;
 
 inOutDistance = 33;
 
-backThickness = 30;
+backThickness = 15;
 bevelRadius = 5;
+
+cameraWidth = 22;
+cameraHeight = 23;
 /*--------------------------------main--------------------------------------------*/
 //screen();
 rotate([-90,0,0])
 difference()
 {
     whole();
+//    translate([0,0,53])
+//        cube([cameraLength,200,cameraLength],center = true);
+//    
+    translate([0,0,58])
+        cube([cameraWidth,200,cameraHeight],center = true);
+    
     translate([100,0,0])cube(200,center = true);
-    translate([0,0,-100])cube(200,center = true);
+    translate([0,0,100])cube(200,center = true);
 }
 
 /*-------------------------------modules----------------------------------------------*/
@@ -38,7 +47,9 @@ module whole()
             front();
             back();
         }
-        screen();
+        translate([0,0,-3])screen();
+        translate([0,0,-3])
+        cube([screenLength-15,260,screenWidth-10],center = true);
     }
 }
 
