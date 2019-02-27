@@ -1,5 +1,6 @@
 smallThickness = 2;
 largeThickness = 3;
+hugeThickness = 5;
 
 boardThickness = 25;
 
@@ -10,7 +11,7 @@ longHoleRadius = 1.5;
 boardHeight = 5;
 
 topOffset = 5*holeRadius +0;
-topThickness = 3;
+topThickness = 2;
 
 
 gridLength = 30;
@@ -19,6 +20,7 @@ gridHeight = 12;
 
 
 
+mainBoardWidth = 35;
 
 clickLength = 5;
 clickWidth = 2;
@@ -31,7 +33,7 @@ gridNumber = 7;
 top = true;
 bottom = true;
 longHole = false;
-//--------------------------------------------------------
+//-------------------main------------------------------
 
 
     difference()
@@ -83,12 +85,49 @@ if (longHole ==true)
     longHole();}
 
 
-
-
-//--------------------------------------------------------
+outsideBox();
+echo("length");
+    echo(2*gridLength + boardThickness- 2*smallThickness);
+echo("width");
+echo(gridWidth+smallThickness);
+//-----------------modules--------------------------------
 module outsideBox()
 {
-    cube([,,]);
+    //底板
+    translate([-smallThickness,0,-smallThickness])
+    cube([ gridLength*2 + boardThickness + 2 * smallThickness,
+    ,gridNumber*(gridWidth-smallThickness)+smallThickness ,
+    smallThickness]);
+    
+    //放主板的底板
+    
+        translate([-smallThickness,-mainBoardWidth,-smallThickness])
+            cube([2*gridLength + boardThickness+2*smallThickness,
+                    mainBoardWidth,
+                    smallThickness]);
+    
+    //放主板的两边儿侧板
+    thickness = 7;
+    translate([-smallThickness,-mainBoardWidth,0])
+    cube([thickness,mainBoardWidth,gridHeight+smallThickness]);
+    
+    translate([2*gridLength + boardThickness+smallThickness - thickness
+    ,
+    -mainBoardWidth,
+    0])
+    cube([thickness,mainBoardWidth,gridHeight+smallThickness]);
+    
+    
+    //顶板
+    translate([-smallThickness,-mainBoardWidth,gridHeight])
+            cube([2*gridLength + boardThickness+2*smallThickness,
+                    mainBoardWidth,
+                    smallThickness]);
+                    
+                    
+    // 
+        
+
 }
 
 
