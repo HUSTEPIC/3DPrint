@@ -1,67 +1,109 @@
 smallThickness = 2;
 largeThickness = 3;
 
-boardThickness = 20;
+boardThickness = 25;
+
+
+
+holeRadius = 1.5;
+longHoleRadius = 1.5;
+boardHeight = 5;
+
+topOffset = 5*holeRadius +0;
+topThickness = 3;
+
 
 gridLength = 30;
-gridWidth = 25;
+gridWidth = 2*(topOffset + boardHeight) +1;
 gridHeight = 12;
 
-boardHeight = 5;
+
 
 
 clickLength = 5;
 clickWidth = 2;
 clickDepth = 1;
 
-holeRadius = 1.5;
-longHoleRadius = 1.5;
 
-topOffset = 3;
-topThickness = 5;
 
 gridNumber = 7;
+
+top = true;
+bottom = true;
+longHole = false;
 //--------------------------------------------------------
 
-rotate( [0,0,0])
-{
+
     difference()
     {
         gridsRow(gridNumber);
-        longHole();
+        //longHole();
     }
 
+
+
+if(bottom == true)
+{
+    difference()
+    {
+        translate([gridLength,0,0])  
+        middleBoard(gridNumber);
+        
+        longHole();
+        
+            $fn=50;
     
-translate([gridLength,0,0])  middleBoard(gridNumber);
+        translate([gridLength+boardThickness-5.1,
+        gridNumber*(gridWidth-smallThickness)+4*smallThickness,
+        gridHeight-boardHeight/2])
+        
+        rotate ([90,0,0])
+        
+        cylinder(r=longHoleRadius,
+        h=(gridWidth+6*smallThickness)*gridNumber);
+    }
+
+}
+
+
 translate([boardThickness + 2*gridLength,0,0]) mirror([1,0,0]) 
         difference()
     {
         gridsRow(gridNumber);
-        longHole();
+        //longHole();
     }
     
 
-}
 sideGrids();
-longHole();
+
+if (longHole ==true)
+{
+    longHole();
+    translate([10,0,0])
+    longHole();}
 
 
 
-sideGrids();
 
 //--------------------------------------------------------
+module outsideBox()
+{
+    cube([,,]);
+}
+
+
 module longHole()
 {
     $fn=50;
     
-    translate([gridLength+0.5*(2*holeRadius + 2),
+    translate([gridLength+5.1,
     gridNumber*(gridWidth-smallThickness)+4*smallThickness,
     gridHeight-boardHeight/2])
     
     rotate ([90,0,0])
     
     cylinder(r=longHoleRadius,
-    h=(gridWidth+2*smallThickness)*gridNumber);
+    h=(gridWidth+6*smallThickness)*gridNumber);
 }
 //holes for one grid
 module boardHoles()
@@ -105,7 +147,7 @@ module gridBottom()
 module gridTop()
 {
     translate([0,smallThickness/2,gridHeight])
-    cube([gridLength+2*holeRadius + 2,gridWidth - smallThickness,topThickness]);
+    cube([gridLength+topOffset,gridWidth - smallThickness,topThickness]);
     
     translate([-smallThickness, 0,0])
             cube([smallThickness,gridWidth ,gridHeight +topThickness ]);
@@ -116,7 +158,11 @@ module gridTop()
 module grid()
 {
     
+    if(top == true)
     rotate([0,0,0]) gridTop();
+    
+    
+    if(bottom == true)
     gridBottom();
 }
 
@@ -145,10 +191,10 @@ module sideTop()
         union()
         {
             translate([0,0,gridHeight])
-            cube([gridLength+2*holeRadius + 2,gridWidth ,topThickness]);
+            cube([gridLength+topOffset,gridWidth ,topThickness]);
             
             translate([gridLength,-3,gridHeight - boardHeight])
-            cube([2*holeRadius + 2,largeThickness,boardHeight+topThickness]);
+            cube([topOffset,largeThickness,boardHeight+topThickness]);
             
             translate([-smallThickness, 0,0])
             cube([smallThickness,gridWidth ,gridHeight +topThickness ]);
@@ -161,7 +207,9 @@ module sideTop()
 }
 module sideGrid()
 {
+    if(bottom == true)
    gridBottom();
+    if(top == true)
    sideTop();
 }
 module sideGrids()
